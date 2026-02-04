@@ -1,0 +1,48 @@
+.cadastro-macros{
+    max-width: 700px;
+    width: 100%;
+    padding: 25px;
+}
+
+.cadastro-macros form{
+    display: flex;
+    flex-direction: column;
+}
+
+.cadastro-macros label{
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.cadastro-macros input, .cadastro-macros textarea{
+    width: 100%;
+    font-size: 15px;
+    padding: 10px;
+    border: 0;
+    border-radius: 4px;
+    background-color: var(--fundo);
+    color: #FFF;
+    outline: 0;
+}
+
+.cadastro-macros textarea{
+    font-family: Arial, Helvetica, sans-serif;
+    resize: none;
+    height: 300px;
+}
+
+.cadastro-macros button{
+    margin-top: 20px;
+    padding: 10px;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #FFF;
+    background-color: purple;
+    font-size: 15px;
+}
+
+.cadastro-macros button:hover{
+    background-color: rgb(110, 0, 110);
+}

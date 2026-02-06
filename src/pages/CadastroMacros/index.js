@@ -10,7 +10,7 @@ function CadastroMacros(){
    /*  const [addVariantes, setAddVariantes] = useState(false)
     const [qtdVariantes, setQtdVariantes] = useState(0)
  */
-    let lista_variantes = []
+    // let lista_variantes = []
 
     async function cadastrar_macro(e){
         e.preventDefault()

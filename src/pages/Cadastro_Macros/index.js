@@ -54,3 +54,6 @@ function Cadastro_Macros(){
 }
 
 export default Cadastro_Macros
+
+// criar categoria
+// criar opção de variante no cadastro

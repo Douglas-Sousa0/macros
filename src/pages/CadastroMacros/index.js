@@ -30,13 +30,13 @@ function CadastroMacros(){
         })
     }
 
-    for(let contador = 0; contador < qtdVariantes; contador++){
+    /* for(let contador = 0; contador < qtdVariantes; contador++){
         lista_variantes.push(
             <textarea 
             placeholder='Digite um texto'
             key={contador}/>
         )
-    }
+    } */
 
     /* useEffect(() => {
 
@@ -83,9 +83,9 @@ function CadastroMacros(){
                 onChange={e => setTexto(e.target.value)}
                 name='texto'
                 id='texto'/>
-
+{/* 
                 {lista_variantes}
-
+ */}
                 <button type='submit'>Cadastrar</button>
             </form>
         </div>

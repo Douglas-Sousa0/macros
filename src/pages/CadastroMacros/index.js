@@ -7,9 +7,9 @@ function CadastroMacros(){
     const [titulo, setTitulo] = useState('')
     const [texto, setTexto] = useState('')
 
-    const [addVariantes, setAddVariantes] = useState(false)
+   /*  const [addVariantes, setAddVariantes] = useState(false)
     const [qtdVariantes, setQtdVariantes] = useState(0)
-
+ */
     let lista_variantes = []
 
     async function cadastrar_macro(e){

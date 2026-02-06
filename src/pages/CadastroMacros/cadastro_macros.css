@@ -2,6 +2,8 @@
     max-width: 700px;
     width: 100%;
     padding: 25px;
+
+    overflow-y: auto;
 }
 
 .cadastro-macros form{
@@ -15,7 +17,7 @@
     font-weight: bold;
 }
 
-.cadastro-macros input, .cadastro-macros textarea{
+.cadastro-macros input[type="text"], .cadastro-macros textarea{
     width: 100%;
     font-size: 15px;
     padding: 10px;
@@ -30,6 +32,18 @@
     font-family: Arial, Helvetica, sans-serif;
     resize: none;
     height: 300px;
+}
+
+.cadastro-macros input[type="checkbox"]{
+    width: 25px;
+}
+
+.cadastro-macros input[type="number"]{
+    width: 45px;
+    padding: 5px;
+    margin-left: 10px;
+    border: 0;
+    border-radius: 4px;
 }
 
 .cadastro-macros button{

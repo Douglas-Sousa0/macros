@@ -130,9 +130,3 @@ function Macros(){
 }
 
 export default Macros
-
-// área de select com opção de todos os títulos - feito
-// botão para copiar texto - feito
-// botão para editar o título/texto
-// botões 'radio' para caso o texto possua variantes
-

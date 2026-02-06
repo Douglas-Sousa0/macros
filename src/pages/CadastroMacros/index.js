@@ -3,9 +3,14 @@ import { database } from '../../firebaseConnection'
 import { collection, addDoc } from 'firebase/firestore'
 import './cadastro_macros.css'
 
-function Cadastro_Macros(){
+function CadastroMacros(){
     const [titulo, setTitulo] = useState('')
     const [texto, setTexto] = useState('')
+
+    const [addVariantes, setAddVariantes] = useState(false)
+    const [qtdVariantes, setQtdVariantes] = useState(0)
+
+    let lista_variantes = []
 
     async function cadastrar_macro(e){
         e.preventDefault()
@@ -25,6 +30,18 @@ function Cadastro_Macros(){
         })
     }
 
+    for(let contador = 0; contador < qtdVariantes; contador++){
+        lista_variantes.push(
+            <textarea 
+            placeholder='Digite um texto'
+            key={contador}/>
+        )
+    }
+
+    /* useEffect(() => {
+
+    }, [qtdVariantes])
+ */
     return(
         <div className='cadastro-macros'>
             <form onSubmit={cadastrar_macro}>
@@ -36,7 +53,27 @@ function Cadastro_Macros(){
                 value={titulo}
                 onChange={e => setTitulo(e.target.value)}
                 name='titulo'
-                id='titulo'/>
+                id='titulo'
+                autoComplete='off'/>
+                
+                {/* <label>
+                    <input 
+                    type='checkbox'
+                    checked={addVariantes}
+                    onChange={e => setAddVariantes(!addVariantes)}/>  
+                    Variantes
+                </label>
+
+                {addVariantes && 
+                <label>Quantidade:
+                    <input 
+                    type='number'
+                    min={1}
+                    max={5}
+                    defaultValue={1}
+                    onChange={e => setQtdVariantes(e.target.value)}/>
+                </label>
+                } */}
                 
                 <label htmlFor='texto'>Texto</label> 
                 
@@ -47,13 +84,12 @@ function Cadastro_Macros(){
                 name='texto'
                 id='texto'/>
 
+                {lista_variantes}
+
                 <button type='submit'>Cadastrar</button>
             </form>
         </div>
     )
 }
 
-export default Cadastro_Macros
-
-// criar categoria
-// criar opção de variante no cadastro
+export default CadastroMacros

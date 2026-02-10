@@ -11,7 +11,9 @@ function Macros(){
     const [indexAtual, setIndexAtual] = useState(0)
     const [idAtual, setIdAtual] = useState('')
     const [possuiVariantes, setPossuiVariantes] = useState(false)
+
     const [variantes, setVariantes] = useState({})
+    const [varianteSelecionada, setVarianteSelecionada] = useState(false)
 
     const [textoCopiar, setTextoCopiar] = useState('Copiar')
     const [textoEditar, setTextoEditar] = useState('Editar')
@@ -42,9 +44,14 @@ function Macros(){
 
             setMacros(lista)
             setIdAtual(lista[indexAtual].id)
-            setTextoAtual(lista[indexAtual].texto)
             setVariantes(lista[indexAtual].variantes)
             setPossuiVariantes(lista[indexAtual].possuiVariantes)
+
+            if(varianteSelecionada === false){
+                setTextoAtual(lista[indexAtual].texto)
+            } else{
+                setTextoAtual(lista[indexAtual].variantes[varianteSelecionada])
+            }
 
             setLoading(false)
         })
@@ -73,15 +80,28 @@ function Macros(){
         } else{
             setTextoEditar('Editar')
             setClassEditar('editar-desativado')
-            setTextoAtual(macros[indexAtual].texto)
-        }  
+
+            if(varianteSelecionada != false ){
+               setTextoAtual(macros[indexAtual].variantes[varianteSelecionada]) 
+            } else{
+                setTextoAtual(macros[indexAtual].texto)
+            }
+        } 
     }
 
     async function editar_macro(){
         const ref = doc(database, 'macros', idAtual)
+        
+        let campo_atualizar
+
+        if(varianteSelecionada === false){
+            campo_atualizar = 'texto'
+        } else{
+            campo_atualizar = `variantes.${varianteSelecionada}`
+        }
 
         await updateDoc(ref, {
-            texto: textoAtual
+            [campo_atualizar]: textoAtual
         })
         .then(() => {
             console.log('Atualização realizada com sucesso')
@@ -117,8 +137,7 @@ function Macros(){
                 setIdAtual(macros[e.target.value].id)
                 setVariantes(macros[e.target.value].variantes)
                 setPossuiVariantes(macros[e.target.value].possuiVariantes)
-
-                console.log(macros)
+                setVarianteSelecionada(false)
             }}
             >
                 {macros.map( (item, index) => {
@@ -127,28 +146,38 @@ function Macros(){
                     )
                 })}
             </select>
-
-            <label>
-                <input 
-                type='radio'
-                name='radio-texto'
-                defaultChecked
-                onChange={ e => setTextoAtual(macros[indexAtual].texto)}
-                />
-                Primário
-            </label>
             
-            {possuiVariantes && Object.values(variantes).map( (item, index) => {
+            {possuiVariantes &&
+                <label>
+                    <input 
+                    type='radio'
+                    name='radio-texto'
+                    value='primario'
+                    defaultChecked
+                    onChange={ e => {
+                        setTextoAtual(macros[indexAtual].texto)
+                        setVarianteSelecionada(false)
+                    }}
+                    />
+                    Primário
+                </label>
+            }
+            {possuiVariantes && Object.keys(variantes).sort().map( (item, index) => {
                 return(
-                     <label key={`variante-${index}`} htmlFor=''>
+                     <label key={`label-${item}`} htmlFor={`radio-${item}`}>
                         <input 
                         type='radio'
                         name='radio-texto'
-                        value={`variante_${index}`}
-                        onChange={ e => setTextoAtual(item)}
+                        id={`radio-${item}`}
+                        value={item}
+                        onChange={ e => {
+                            setTextoAtual(macros[indexAtual].variantes[e.target.value])
+                            setVarianteSelecionada(e.target.value)
+                            console.log(e.target.value)
+                        }}
                         />
 
-                        Variante {index + 1}
+                        Variante { index + 1}
                     </label>
                 )
             })}

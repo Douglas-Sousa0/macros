@@ -8,8 +8,10 @@ import './macros.css'
 function Macros(){
     const [macros, setMacros] = useState([])
     const [textoAtual, setTextoAtual] = useState('')
-    const [indexTextoAtual, setIndexTextoAtual] = useState(0)
-    const [idTextoAtual, setIdTextoAtual] = useState('')
+    const [indexAtual, setIndexAtual] = useState(0)
+    const [idAtual, setIdAtual] = useState('')
+    const [possuiVariantes, setPossuiVariantes] = useState(false)
+    const [variantes, setVariantes] = useState({})
 
     const [textoCopiar, setTextoCopiar] = useState('Copiar')
     const [textoEditar, setTextoEditar] = useState('Editar')
@@ -30,15 +32,20 @@ function Macros(){
                 lista.push({
                     id: item.id,
                     titulo: item.data().titulo,
-                    texto: item.data().texto
-                })
+                    texto: item.data().texto,
+                    possuiVariantes: item.data().possuiVariantes,
+                    variantes: item.data().variantes
+                })     
             })
             
             lista.sort((a, b) => a.titulo.localeCompare(b.titulo))
 
             setMacros(lista)
-            setTextoAtual(lista[0].texto)
-            setIdTextoAtual(lista[0].id)
+            setIdAtual(lista[indexAtual].id)
+            setTextoAtual(lista[indexAtual].texto)
+            setVariantes(lista[indexAtual].variantes)
+            setPossuiVariantes(lista[indexAtual].possuiVariantes)
+
             setLoading(false)
         })
         .catch(erro => {
@@ -66,12 +73,12 @@ function Macros(){
         } else{
             setTextoEditar('Editar')
             setClassEditar('editar-desativado')
-            setTextoAtual(macros[indexTextoAtual].texto)
+            setTextoAtual(macros[indexAtual].texto)
         }  
     }
 
     async function editar_macro(){
-        const ref = doc(database, 'macros', idTextoAtual)
+        const ref = doc(database, 'macros', idAtual)
 
         await updateDoc(ref, {
             texto: textoAtual
@@ -105,9 +112,13 @@ function Macros(){
             <select id='select_macros'className='fundo-macros' 
             selected
             onChange={ e => {
+                setIndexAtual(e.target.value)
                 setTextoAtual(macros[e.target.value].texto)
-                setIndexTextoAtual(e.target.value)
-                setIdTextoAtual(e.target.value)
+                setIdAtual(macros[e.target.value].id)
+                setVariantes(macros[e.target.value].variantes)
+                setPossuiVariantes(macros[e.target.value].possuiVariantes)
+
+                console.log(macros)
             }}
             >
                 {macros.map( (item, index) => {
@@ -116,6 +127,32 @@ function Macros(){
                     )
                 })}
             </select>
+
+            <label>
+                <input 
+                type='radio'
+                name='radio-texto'
+                defaultChecked
+                onChange={ e => setTextoAtual(macros[indexAtual].texto)}
+                />
+                Primário
+            </label>
+            
+            {possuiVariantes && Object.values(variantes).map( (item, index) => {
+                return(
+                     <label key={`variante-${index}`} htmlFor=''>
+                        <input 
+                        type='radio'
+                        name='radio-texto'
+                        value={`variante_${index}`}
+                        onChange={ e => setTextoAtual(item)}
+                        />
+
+                        Variante {index + 1}
+                    </label>
+                )
+            })}
+          
           
             <textarea className='fundo-macros' id='texto' value={textoAtual} readOnly={modoLeitura} onChange={e => setTextoAtual(e.target.value)}></textarea>
             

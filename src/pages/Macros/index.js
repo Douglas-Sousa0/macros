@@ -43,6 +43,8 @@ function Macros(){
             lista.sort((a, b) => a.titulo.localeCompare(b.titulo))
 
             setMacros(lista)
+            setLoading(false)
+            
             setIdAtual(lista[indexAtual].id)
             setVariantes(lista[indexAtual].variantes)
             setPossuiVariantes(lista[indexAtual].possuiVariantes)
@@ -53,7 +55,6 @@ function Macros(){
                 setTextoAtual(lista[indexAtual].variantes[varianteSelecionada])
             }
 
-            setLoading(false)
         })
         .catch(erro => {
             console.log(erro)
@@ -124,6 +125,12 @@ function Macros(){
     if(loading){
         return(
             <h1>Carregando</h1>
+        )
+    }
+
+    if(macros.length === 0){
+        return(
+            <h1>Nenhuma macro foi cadastrada até o momento</h1>
         )
     }
 

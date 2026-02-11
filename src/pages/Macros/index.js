@@ -148,40 +148,44 @@ function Macros(){
             </select>
             
             {possuiVariantes &&
-                <label>
-                    <input 
-                    type='radio'
-                    name='radio-texto'
-                    value='primario'
-                    defaultChecked
-                    onChange={ e => {
-                        setTextoAtual(macros[indexAtual].texto)
-                        setVarianteSelecionada(false)
-                    }}
-                    />
-                    Primário
-                </label>
-            }
-            {possuiVariantes && Object.keys(variantes).sort().map( (item, index) => {
-                return(
-                     <label key={`label-${item}`} htmlFor={`radio-${item}`}>
+                <div className='area-variantes'>
+                    <label>
                         <input 
                         type='radio'
                         name='radio-texto'
-                        id={`radio-${item}`}
-                        value={item}
+                        value='primario'
+                        defaultChecked
                         onChange={ e => {
-                            setTextoAtual(macros[indexAtual].variantes[e.target.value])
-                            setVarianteSelecionada(e.target.value)
-                            console.log(e.target.value)
+                            setTextoAtual(macros[indexAtual].texto)
+                            setVarianteSelecionada(false)
                         }}
                         />
-
-                        Variante { index + 1}
+                        Primário
                     </label>
-                )
-            })}
-          
+                    
+                    {Object.keys(variantes).sort().map( (item, index) => {
+                        return(
+                        <label key={`label-${item}`} htmlFor={`radio-${item}`}>
+                            <input 
+                            type='radio'
+                            name='radio-texto'
+                            id={`radio-${item}`}
+                            value={item}
+                            onChange={ e => {
+                                setTextoAtual(macros[indexAtual].variantes[e.target.value])
+                                setVarianteSelecionada(e.target.value)
+                                console.log(e.target.value)
+                            }}
+                            />
+
+                            Variante { index + 1}
+                        </label>
+                    )
+                })}
+                </div>
+            }
+
+            
           
             <textarea className='fundo-macros' id='texto' value={textoAtual} readOnly={modoLeitura} onChange={e => setTextoAtual(e.target.value)}></textarea>
             

@@ -111,3 +111,12 @@ select::picker(select){
 .editar-ativado:hover{
     background-color: rgb(211, 0, 0);
 }
+
+.area-variantes{
+    display: flex;
+    gap: 20px;
+}
+
+.area-variantes input[type="radio"]{
+    accent-color: purple;
+}

@@ -1,6 +1,7 @@
 import { useState, useReducer } from 'react'
 import { database } from '../../firebaseConnection'
 import { collection, addDoc } from 'firebase/firestore'
+import { toast } from 'react-toastify'
 import './cadastro_macros.css'
 
 function CadastroMacros(){
@@ -44,6 +45,8 @@ function CadastroMacros(){
             setTitulo('')
             setTexto('')
             dispatch({ type: 'LIMPAR_TUDO'})
+
+            toast.success('Cadastro realizado com sucesso!')
         })
         .catch(erro => {
             console.log(erro)

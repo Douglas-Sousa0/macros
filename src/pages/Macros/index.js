@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { database } from '../../firebaseConnection'
 import { collection, doc, getDocs, updateDoc } from 'firebase/firestore'
+import { toast } from 'react-toastify'
 
 import './macros.css'
 
@@ -105,13 +106,13 @@ function Macros(){
             [campo_atualizar]: textoAtual
         })
         .then(() => {
-            console.log('Atualização realizada com sucesso')
-
             buscar_macros()
             
             setModoLeitura(true)
             setTextoEditar('Editar')
             setClassEditar('editar-desativado')
+
+            toast.success('Alteração realizada com sucesso!')
         })
         .catch(erro => {
             console.log(erro)
@@ -181,7 +182,6 @@ function Macros(){
                             onChange={ e => {
                                 setTextoAtual(macros[indexAtual].variantes[e.target.value])
                                 setVarianteSelecionada(e.target.value)
-                                console.log(e.target.value)
                             }}
                             />
 
@@ -191,9 +191,7 @@ function Macros(){
                 })}
                 </div>
             }
-
             
-          
             <textarea className='fundo-macros' id='texto' value={textoAtual} readOnly={modoLeitura} onChange={e => setTextoAtual(e.target.value)}></textarea>
             
             <div className='area-botoes'>

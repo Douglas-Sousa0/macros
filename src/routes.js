@@ -2,8 +2,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import Macros from './pages/Macros'
 import CadastroMacros from './pages/CadastroMacros'
+import NotFound from './pages/NotFound'
 import Header from './components/Header'
-
 
 function Rotas(){
     return(
@@ -12,6 +12,7 @@ function Rotas(){
             <Routes>
                 <Route path="/" element={ <Macros/> } />
                 <Route path="/cadastro_macros" element={ <CadastroMacros />}/>
+                <Route path="*" element={ <NotFound/> } />
             </Routes>
         </BrowserRouter>
     )

@@ -7,11 +7,12 @@ Trabalhei com atendimento por um tempo e apesar do sistema de macros existir sen
 # Funcionalidades
 
 - Visualizar e selecionar os textos cadastros
-- Cadastrar textos (macros) e variantes
+- Cadastrar macros e variantes
 - Copiar texto para a área de transferência (clipboard) com um botão
-- Editar textos (macros)
+- Editar macros
+- Excluir macros
 
-https://github.com/user-attachments/assets/e66d1ca9-9908-4353-bccb-d462536da9b9
+https://github.com/user-attachments/assets/aefa0e3c-ef75-43c2-ac9a-6255a951ae69
 
 # 🛠️ Tecnologias
 - HTML

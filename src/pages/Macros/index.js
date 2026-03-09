@@ -24,7 +24,7 @@ function Macros(){
     
     const [loading, setLoading] = useState(true)
 
-    async function buscar_macros(index){
+    async function buscar_macros(index, considerar_variantes){
         const ref = collection(database, 'macros')
     
         await getDocs(ref)
@@ -50,12 +50,15 @@ function Macros(){
             setVariantes(lista[index].variantes)
             setPossuiVariantes(lista[index].possuiVariantes)
 
-            if(varianteSelecionada === false){
-                setTextoAtual(lista[index].texto)
+            if(considerar_variantes){
+                if(varianteSelecionada === false){
+                    setTextoAtual(lista[index].texto)
+                } else{
+                    setTextoAtual(lista[index].variantes[varianteSelecionada])
+                }
             } else{
-                setTextoAtual(lista[index].variantes[varianteSelecionada])
+                setTextoAtual(lista[index].texto)
             }
-
         })
         .catch(erro => {
             console.log(erro)
@@ -106,7 +109,7 @@ function Macros(){
             [campo_atualizar]: textoAtual
         })
         .then(() => {
-            buscar_macros(indexAtual)
+            buscar_macros(indexAtual, true)
             
             setModoLeitura(true)
             setTextoEditar('Editar')
@@ -124,7 +127,7 @@ function Macros(){
 
         await deleteDoc(ref)
         .then(() => {
-            buscar_macros(0)
+            buscar_macros(0, false)
 
             setModoLeitura(true)
             setTextoEditar('Editar')
@@ -135,7 +138,7 @@ function Macros(){
     }
 
     useEffect(() => {
-        buscar_macros(indexAtual)
+        buscar_macros(indexAtual, true)
     }, [])
 
     if(loading){

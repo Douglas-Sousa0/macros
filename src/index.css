@@ -11,6 +11,12 @@ body{
     
     --fundo: #3f3f3f;
     --fundo-hover: #3a3a3a;
+    --cor-1: #a309a3;
+    --cor-1-hover: #830583;
+    --cor-2: #0a920a;
+    --cor-2-hover: #036603;
+    --cor-3: #c00202;
+    --cor-3-hover: #b10404;
 }
 
 #root{

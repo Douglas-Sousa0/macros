@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { database } from '../../firebaseConnection'
-import { collection, doc, getDocs, updateDoc } from 'firebase/firestore'
+import { collection, doc, getDocs, updateDoc, deleteDoc } from 'firebase/firestore'
 import { toast } from 'react-toastify'
 
 import './macros.css'
@@ -24,7 +24,7 @@ function Macros(){
     
     const [loading, setLoading] = useState(true)
 
-    async function buscar_macros(){
+    async function buscar_macros(index){
         const ref = collection(database, 'macros')
     
         await getDocs(ref)
@@ -46,14 +46,14 @@ function Macros(){
             setMacros(lista)
             setLoading(false)
             
-            setIdAtual(lista[indexAtual].id)
-            setVariantes(lista[indexAtual].variantes)
-            setPossuiVariantes(lista[indexAtual].possuiVariantes)
+            setIdAtual(lista[index].id)
+            setVariantes(lista[index].variantes)
+            setPossuiVariantes(lista[index].possuiVariantes)
 
             if(varianteSelecionada === false){
-                setTextoAtual(lista[indexAtual].texto)
+                setTextoAtual(lista[index].texto)
             } else{
-                setTextoAtual(lista[indexAtual].variantes[varianteSelecionada])
+                setTextoAtual(lista[index].variantes[varianteSelecionada])
             }
 
         })
@@ -83,7 +83,7 @@ function Macros(){
             setTextoEditar('Editar')
             setClassEditar('editar-desativado')
 
-            if(varianteSelecionada != false ){
+            if(varianteSelecionada !== false ){
                setTextoAtual(macros[indexAtual].variantes[varianteSelecionada]) 
             } else{
                 setTextoAtual(macros[indexAtual].texto)
@@ -106,7 +106,7 @@ function Macros(){
             [campo_atualizar]: textoAtual
         })
         .then(() => {
-            buscar_macros()
+            buscar_macros(indexAtual)
             
             setModoLeitura(true)
             setTextoEditar('Editar')
@@ -119,8 +119,23 @@ function Macros(){
         })
     }
 
+    async function excluir_macro(){
+        const ref = doc(database, 'macros', idAtual)
+
+        await deleteDoc(ref)
+        .then(() => {
+            buscar_macros(0)
+
+            setModoLeitura(true)
+            setTextoEditar('Editar')
+            setClassEditar('editar-desativado')
+            
+            toast.success('Exclusão foi realizada com sucesso!')
+        })
+    }
+
     useEffect(() => {
-        buscar_macros()
+        buscar_macros(indexAtual)
     }, [])
 
     if(loading){
@@ -197,7 +212,12 @@ function Macros(){
             <div className='area-botoes'>
                 <button className='botao-copiar' onClick={copiar_texto}>{textoCopiar}</button>
                 
-                {!modoLeitura && <button className='botao-concluir' onClick={editar_macro}>Concluir</button> }
+                {!modoLeitura && 
+                <>
+                    <button className='botao-concluir' onClick={editar_macro}>Concluir</button>
+                    <button className='botao-excluir' onClick={excluir_macro}>Excluir</button> 
+                </>
+                }
                 <button className={`botao-editar ${classEditar}`} onClick={alterar_modo}>{textoEditar}</button>
             </div>
         </div>
